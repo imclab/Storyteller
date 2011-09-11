@@ -165,7 +165,7 @@ html, body{
   echo "</div>";
   echo "<div id='thumbnailMacro'>";
     foreach($all_stories as $key=>$value) {
-      echo "<div id='$key" . story ."' class='$value story'>$value</div>";
+      echo "<div id='" . (($key+1) * 1000) . "' class='$value story'>$value</div>";
     }
   echo "</div>";
   
@@ -229,6 +229,7 @@ html, body{
   
   var thumbnails = $("#thumbnailInner");
   var key = 0;
+  var storyKey = 1;
   
   var sources = [];
   for (index in allMp4){
@@ -237,8 +238,9 @@ html, body{
     console.log(source);
   }
 
-  $(document).keydown(function(e) {
-    if (e.keyCode==37){
+  var position= -1;
+  
+  var left = function (isBottom){
       if (key == 0){
         return; 
       }
@@ -247,26 +249,64 @@ html, body{
       hover(key)
       var currentMargin = thumbnails.css('margin-left','+=160');
       return false;
+  }
+  
+  var right = function(isBottom){
+    if (key == (count)){
+      return;
+    }
+    dehover(key);
+    key++;
+    hover(key)
+    var currentMargin = thumbnails.css('margin-left','-=160');
+    return false;
+  }
+  
+  
+  
+  $(document).keydown(function(e) {
+    //left
+    if (e.keyCode==37){
+      left()
+    }
 
-      //right
-    } else if (e.keyCode==39){
-      if (key == (count)){
+    //right    
+    if (e.keyCode==39){
+      right();
+    }
+    
+    //down
+    if (e.keyCode==40){
+      console.log("down")
+      if (position == (-1)){
         return;
       }
-      dehover(key);
-      key++;
-      hover(key)
-      var currentMargin = thumbnails.css('margin-left','-=160');
+      hover(storyKey * 1000)
+      dehover(key)
+      position = -1;
       return false;
-      
-      //enter
-    } else if (e.keyCode==13){
+    }
+    
+    //up
+    if (e.keyCode==38){
+      console.log("up")
+      if (position == (0)){
+        return;
+      }
+      dehover(storyKey * 1000);
+      hover(key)
+      position = 0;
+      return false;
+    }
+
+    //enter    
+    if (e.keyCode==13){
       play(key);
     }
   });
 
   //initialize
-  hover(0);
+  hover(1000);
 
   $(document).ready(
     function() {
