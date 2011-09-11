@@ -215,7 +215,7 @@ input[type='text'] {
       array_push($all_stories, $row[1]);
   }
   
-  $query = "SELECT * FROM stories";
+  $query = "SELECT * FROM stories ORDER BY title";
   $result = mysql_query($query);
   while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
       array_push($all_mp4, $row[2]); 
@@ -228,9 +228,9 @@ input[type='text'] {
     echo "<div id='gradientLeft'></div>";
     
   $pastValue = null;
-  $counter = 0; 
+  $counter = 0;
+  
   foreach($all_thumbnails as $key=>$value){
-    
     if ($pastValue == $value[6]){
       $counter++;
     } else {
@@ -240,6 +240,7 @@ input[type='text'] {
     
     echo "<img id='$counter". $value[6] . "' class='$value[6] thumbnail' src='$value[4]' video='" .$value[2]. "'></img>";
     }
+
   echo "<img id='last' onClick='reveal()' id='$key' class='thumbnail lastThumbnail' src='blank.jpg'></img>";
         echo "<div id='gradientRight'></div>";
       echo "</div>";
