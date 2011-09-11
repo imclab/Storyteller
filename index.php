@@ -16,6 +16,7 @@ html, body{
   width: 100%;
   margin: 0;
   padding: 0;
+  background: black;
 }
 
 .thumbnail{
@@ -30,6 +31,7 @@ html, body{
   width: 800px;
   text-align: center;
   overflow: hidden;
+  height: 110px;
 }
 
 #megaplaya{
@@ -56,8 +58,8 @@ html, body{
   
   
   <?php
-  require("framey.php");
   require("opendb.php");
+  require("framey.php");
   
   $all_mp4 = array();
   $all_thumbnails = array();
@@ -167,6 +169,7 @@ html, body{
 <body>
 
 <script type="text/javascript">
+
     Framey.configure({
         api_key: "UDUS0YUL8DLSMGUWJEJC2RH9L",
         timestamp: "<?= $timestamp ?>",
@@ -179,7 +182,7 @@ html, body{
     })
 
 
-Framey.observe("publishClicked", function(session_data){
+Framey.observe("publishSucceeded", function(session_data){
    publish_state();
  });
 
@@ -200,8 +203,25 @@ Framey.observe("publishClicked", function(session_data){
   };
   swfobject.embedSWF("http://framey.com/recorder.swf", "<?= divid ?>", "340", "340", "8", "", flashvars, params, attributes);
 
+
+var total = document.getElementsByClassName("thumbnail");
+total = total.length - 1
+
 var publish_state = function(){
-  console.log("serrrp")
+  console.log(total)
+  $.ajax({
+    type: "GET",
+    url: "poll.php",
+    data: {total : total},
+    timeout: "10000",
+    success: function(data){
+      if(data=="false"){
+        publish_state();
+      } else {
+        window.location.reload();
+      }
+    }
+  });
 }
 </script>
   </body>
