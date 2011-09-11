@@ -1,6 +1,6 @@
 <?php
   $sig_expires_in = 20; // value in minutes
-  $max_record_time = 10; // value in seconds
+  $max_record_time = 30; // value in seconds
   $session_data = array();
 
   // ONLY EDIT BELOW THIS LINE IF YOU ARE A 133t H@x0R
