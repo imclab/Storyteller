@@ -351,6 +351,9 @@ html, body{
       } else {
         storyLeft()
         filterAll(storyKey);
+        //reset thumbnails
+        key = 0;
+        $("#thumbnailInner").css('margin-left','195px');
       }
     }
 
@@ -361,6 +364,9 @@ html, body{
       } else {
         storyRight()
         filterAll(storyKey);
+        //reset thumbnails
+        key = 0;
+        $("#thumbnailInner").css('margin-left','195px');
       }
     }
     
@@ -374,10 +380,6 @@ html, body{
       filterAll(storyKey)
       dehover(key + currentStory)
       
-      //reset thumbnails
-      key = 0;
-      $("#thumbnailInner").css('margin-left','195px');
-      
       position = -1;
       return false;
     }
@@ -388,6 +390,7 @@ html, body{
       if (position == (0)){
         return;
       }
+      
       dehover(storyKey);
       hover(key + currentStory)
       position = 0;
