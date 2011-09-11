@@ -352,13 +352,17 @@ html, body{
     //down
     if (e.keyCode==40){
       console.log("down")
-      key = 0;
       if (position == (-1)){
         return;
       }
       hover(storyKey)
       filterAll(storyKey)
       dehover(key + currentStory)
+      
+      //reset thumbnails
+      key = 0;
+      $("#thumbnailInner").css('margin-left','195px');
+      
       position = -1;
       return false;
     }
