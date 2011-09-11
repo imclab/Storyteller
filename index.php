@@ -191,11 +191,17 @@ html, body{
         echo "<div id='gradientRight'></div>";
       echo "</div>";
   echo "</div>";
+  
+  //story links
+  $storyCounter = 1;
   echo "<div id='thumbnailMacro'>";
     echo "<div id='thumbnailMacroInner'>";
     foreach($all_stories as $key=>$value) {
-      echo "<div id='" . (($key+1) * 1000) . "'js_value='$value' class='story'>$value</div>";
+      echo "<div id='" . ($storyCounter * 1000) . "'js_value='$value' class='story'>$value</div>";
+      $storyCounter++;
     }
+      echo "<form method='GET' action='' id='" . ($storyCounter * 1000) . "'
+            class='story'><input placeholder='Add Your Own' name=title></input></form>";
     echo "</div>";
   echo "</div>";
   
@@ -300,7 +306,9 @@ html, body{
   }
   
   var storyRight = function(){
-    if (storyKey == (storyCount * 1000)){
+    var tempCount = storyCount;
+    tempCount++;
+    if (storyKey == (tempCount * 1000)){
       return;
     }
     dehover(storyKey);
