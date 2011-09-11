@@ -95,12 +95,12 @@ html, body{
 
 #thumbnailInner{
   background: #222723;
-  margin-left: 195px;
+  margin-left: 370px;
   padding-top: 7px;
 }
 
 #thumbnailMacroInner{
-  margin-left: 195px;
+  margin-left: 370px;
 }
 
 .story{
@@ -118,10 +118,11 @@ html, body{
 
 #thumbnailMacro{
   position: absolute;
-  background: green;
+  background: black;
   top: 683px;
   width: 900px;
   height: 30px;
+  overflow: hidden;
 }
 
 #gradientLeft{
@@ -168,7 +169,6 @@ html, body{
   height: 410px;
   width: 550px;
   overflow: hidden;
-  float: left;
 }
 
 #text{
@@ -282,7 +282,6 @@ input[type='text'] {
     <div id="megaplaya"></div>
     <div id="loading"></div>
   </div>
-  <div id="text">THIS IS SOME TEXT</div>
 </div>
 <script>
   
@@ -291,9 +290,12 @@ input[type='text'] {
     try {
       document.getElementById(key).style.margin = "0px";
       document.getElementById(key).style.border = '5px solid #FFF';
+      console.log(key)
+      // TODO: play on hover play(key);
     } catch (e){
       document.getElementById('last').style.margin = "0px";
       document.getElementById('last').style.border = '5px solid #FFF';
+      reveal();
     }
   }
   
@@ -426,7 +428,7 @@ input[type='text'] {
         filterAll(storyKey);
         //reset thumbnails
         key = 0;
-        $("#thumbnailInner").css('margin-left','195px');
+        $("#thumbnailInner").css('margin-left','370px');
       }
     }
 
@@ -439,7 +441,7 @@ input[type='text'] {
         filterAll(storyKey);
         //reset thumbnails
         key = 0;
-        $("#thumbnailInner").css('margin-left','195px');
+        $("#thumbnailInner").css('margin-left','370px');
       }
     }
     
