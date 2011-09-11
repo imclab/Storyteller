@@ -18,6 +18,7 @@ html, body{
   margin: 0;
   padding: 0;
   background: black;
+  overflow: hidden;
 }
 
 .thumbnail{
@@ -30,9 +31,13 @@ html, body{
   top: 500px;
   margin: 0 auto;
   width: 800px;
-  text-align: center;
+  text-align: left;
   overflow: hidden;
   height: 110px;
+}
+
+#thumbnailInner{
+  margin-left: 400px;
 }
 
 #megaplaya{
@@ -83,12 +88,14 @@ html, body{
 
 
   echo "<div id='thumbnails'>";
+    echo "<div id='thumbnailInner'>";
   foreach($all_thumbnails as $key=>$value){
     echo "<img onMouseOut='dehover($key)' onMouseOver='hover($key)' onClick='play($key)' id='$key' class='thumbnail' src='$value'></img>";
     }
     
   echo "<img id='-1' onMouseOut='dehover(-1)' onMouseOver='hover(-1)' onClick='reveal()' id='$key' class='thumbnail' src='blank.png' height='100px' width='100px'></img>";
     
+      echo "</div>";
   echo "</div>";
   
   $script = $script . "\n" . '<script type="text/javascript"> '. "\nvar allMp4 = new Array(";
