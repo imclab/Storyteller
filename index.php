@@ -50,7 +50,6 @@ html, body{
 #thumbnailInner{
   background: #222723;
   margin-left: 195px;
-  width: 1000px;
   padding-top: 7px;
 }
 
@@ -88,7 +87,7 @@ html, body{
  visibility: hidden !important;
  position: absolute;
  top: -80px;
- left: 105px;
+ left: 77px;
 }
 
 #tvContainer{
@@ -96,7 +95,7 @@ html, body{
   margin: 0 auto;
   top: -100px;
   height: 410px;
-  width: 600px;
+  width: 550px;
   overflow: hidden;
   float: left;
 }
@@ -108,10 +107,10 @@ html, body{
 }
 
 #loading{
-  background: green;
+  background: black;
   visibility: hidden;
   height: 500px;
-  width: 600px;
+  width: 540px;
   position: relative;
   margin: 0 auto;
   overflow: hidden;
