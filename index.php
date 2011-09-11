@@ -76,7 +76,8 @@ html, body{
 #theframeyRecorderContainer_1{
  visibility: hidden !important;
  position: absolute;
- top: 0;
+ top: -80px;
+ left: 105px;
 }
 
 #tvContainer{
