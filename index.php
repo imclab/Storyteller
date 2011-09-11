@@ -160,10 +160,21 @@ html, body{
   echo "<div id='thumbnails'>";
     echo "<div id='thumbnailInner'>";
     echo "<div id='gradientLeft'></div>";
+    
+  $pastValue = null;
+  $counter = 0; 
   foreach($all_thumbnails as $key=>$value){
-    echo "<img id='$key' class='$value[6] thumbnail' src='$value[4]'></img>";
+    
+    if ($pastValue == $value[6]){
+      $counter++;
+    } else {
+      $pastValue = $value[6];
+      $counter = 0;
     }
-  echo "<img id='". count($all_mp4) ."' onClick='reveal()' id='$key' class='thumbnail lastThumbnail' src='blank.jpg'></img>";
+    
+    echo "<img id='$counter". $value[6] . "' class='$value[6] thumbnail' src='$value[4]'></img>";
+    }
+  echo "<img id='last' onClick='reveal()' id='$key' class='thumbnail lastThumbnail' src='blank.jpg'></img>";
         echo "<div id='gradientRight'></div>";
       echo "</div>";
   echo "</div>";
@@ -203,13 +214,23 @@ html, body{
   
   var hover = function(key){
     console.log(key)
-    document.getElementById(key).style.margin = "0px";
-    document.getElementById(key).style.border = '5px solid #FFF';
+    try {
+      document.getElementById(key).style.margin = "0px";
+      document.getElementById(key).style.border = '5px solid #FFF';
+    } catch (e){
+      document.getElementById('last').style.margin = "0px";
+      document.getElementById('last').style.border = '5px solid #FFF';
+    }
   }
   
   var dehover = function(key){
-    document.getElementById(key).style.margin = "5px";
-    document.getElementById(key).style.border = 'none';
+    try {
+      document.getElementById(key).style.margin = "5px";
+      document.getElementById(key).style.border = 'none';
+    } catch (e){
+      document.getElementById('last').style.margin = "5px";
+      document.getElementById('last').style.border = 'none';
+    }
   }
     
   var play = function(key){
@@ -234,9 +255,9 @@ html, body{
       if (key == 0){
         return; 
       }
-      dehover(key);
+      dehover(key + currentStory);
       key--;
-      hover(key)
+      hover(key + currentStory)
       var currentMargin = thumbnails.css('margin-left','+=160');
       return false;
   }
@@ -245,9 +266,9 @@ html, body{
     if (key == (count)){
       return;
     }
-    dehover(key);
+    dehover(key + currentStory);
     key++;
-    hover(key)
+    hover(key + currentStory)
     var currentMargin = thumbnails.css('margin-left','-=160');
     return false;
   }
@@ -276,6 +297,7 @@ html, body{
   
   var filterAll = function(storyKey){
     var value = $('#' + storyKey).attr('js_value');
+    currentStory = value;
     $('.thumbnail').each(function(index) {
         $(this).css('display', 'none');
       });
@@ -283,6 +305,8 @@ html, body{
     $('.' + value).each(function(index) {
         $(this).css('display', 'inline');
       });
+      
+      count = $('.' + value).length;
   }
   
   var hoverNext = function(){
@@ -293,6 +317,7 @@ html, body{
   var macro = $("#thumbnailMacro")
   var key = 0;
   var storyKey = 1000;
+  var currentStory = null;
   
   var sources = [];
   for (index in allMp4){
@@ -327,12 +352,13 @@ html, body{
     //down
     if (e.keyCode==40){
       console.log("down")
+      key = 0;
       if (position == (-1)){
         return;
       }
       hover(storyKey)
       filterAll(storyKey)
-      dehover(key)
+      dehover(key + currentStory)
       position = -1;
       return false;
     }
@@ -344,7 +370,7 @@ html, body{
         return;
       }
       dehover(storyKey);
-      hover(key)
+      hover(key + currentStory)
       position = 0;
       return false;
     }
@@ -357,6 +383,7 @@ html, body{
 
   //initialize
   hover(1000);
+  filterAll(1000);
 
   $(document).ready(
     function() {
