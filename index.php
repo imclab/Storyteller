@@ -314,7 +314,7 @@ html, body{
       if (position == (-1)){
         return;
       }
-      hover(storyKey * 1000)
+      hover(storyKey)
       dehover(key)
       position = -1;
       return false;
@@ -326,7 +326,7 @@ html, body{
       if (position == (0)){
         return;
       }
-      dehover(storyKey * 1000);
+      dehover(storyKey);
       hover(key)
       position = 0;
       return false;
