@@ -10,6 +10,48 @@
   <script type="text/javascript" src="swf.js"></script>
   <script type="text/javascript" src="framey.js"></script>
   <script type="text/javascript" src="http://fgnass.github.com/spin.js/spin.min.js"></script>
+  <link href="shadowbox.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="shadowbox.js"></script>
+    <script type="text/javascript">
+    Shadowbox.init({
+      skipSetup: true
+    });
+    $(function() {      
+      loadThisUp = function() {
+        
+        Shadowbox.open({
+          content:    '<div id="msg"><form><input type="text" id="title" /></form></div>',
+          bgcolor:    "#ffffff", 
+          player:     "html",
+          title:      "Type your title",
+          height:     150,
+          width:      350,
+          options:    {
+            enableKeys: false,
+            onFinish: function() {
+              $("#msg input[type='text']").focus();
+              $("form").submit(function() {
+                var title = $("#title").val();
+                $("#result").html(title);
+                $.ajax({
+                  type: 'POST',
+                  url: "addTitle.php",
+                  data: {title: title},
+                  success: function(data){
+                    console.log("yay!");
+                    return false;
+                  }
+                }) 
+
+                Shadowbox.close();
+                return false;
+              })
+            }
+          },
+        });
+      }
+    })
+    </script>
   
 <style type="text/css">
 html, body{
@@ -145,6 +187,17 @@ html, body{
   overflow: hidden;
   top: 0;
 }
+
+input[type='text'] {
+   font-size:14px;
+   width:200px;
+   height:30px;
+ }
+ #msg {
+   padding:20px;
+   text-align:center;
+ }
+
 </style>
   
 <div id="container">
@@ -185,7 +238,7 @@ html, body{
       $counter = 0;
     }
     
-    echo "<img id='$counter". $value[6] . "' class='$value[6] thumbnail' src='$value[4]'></img>";
+    echo "<img id='$counter". $value[6] . "' class='$value[6] thumbnail' src='$value[4]' video='" .$value[2]. "'></img>";
     }
   echo "<img id='last' onClick='reveal()' id='$key' class='thumbnail lastThumbnail' src='blank.jpg'></img>";
         echo "<div id='gradientRight'></div>";
@@ -200,8 +253,8 @@ html, body{
       echo "<div id='" . ($storyCounter * 1000) . "'js_value='$value' class='story'>$value</div>";
       $storyCounter++;
     }
-      echo "<form method='GET' action='' id='" . ($storyCounter * 1000) . "'
-            class='story'><input placeholder='Add Your Own' name=title></input></form>";
+      echo "<div id='" . ($storyCounter * 1000) . "'
+            class='story addYourOwn'>Add Your Own</div>";
     echo "</div>";
   echo "</div>";
   
@@ -321,19 +374,31 @@ html, body{
   var filterAll = function(storyKey){
     var value = $('#' + storyKey).attr('js_value');
     currentStory = value;
+    var videos = [];
+    
     $('.thumbnail').each(function(index) {
         $(this).css('display', 'none');
       });
 
     $('.' + value).each(function(index) {
         $(this).css('display', 'inline');
+        videos.push({url: $(this).attr('video')});
       });
       
       count = $('.' + value).length;
+      
+      console.log(videos)
+    
+    try{
+     megaplaya.api_playQueue(videos)
+   } catch (e){
+     return;
+   }
+      
   }
   
   var hoverNext = function(){
-    console.log("worrd")
+    right()
   }
   
   var thumbnails = $("#thumbnailInner");
@@ -395,6 +460,12 @@ html, body{
     //up
     if (e.keyCode==38){
       console.log("up")
+      var tempCount = storyCount;
+      tempCount++;
+      if (storyKey == (tempCount * 1000)){
+        loadThisUp();
+      }
+      
       if (position == (0)){
         return;
       }
@@ -411,9 +482,6 @@ html, body{
     }
   });
 
-  //initialize
-  hover(1000);
-  filterAll(1000);
 
   $(document).ready(
     function() {
@@ -430,9 +498,13 @@ html, body{
   var megaplaya = false;
   function megaplaya_loaded(){
     megaplaya = $('#megaplaya').children()[0];
-    megaplaya.api_playQueue(sources)
-    megaplaya.api_addEventListener('onVideoLoad', hoverNext) //por la casey
+    // megaplaya.api_playQueue(sources)
+    megaplaya.api_addListener('onVideoFinish', 'hoverNext') //por la casey
+    //initialize
+    hover(1000);
+    filterAll(1000);
   }
+
   
   //cant add videos to megaplaya
   //caching seamless
