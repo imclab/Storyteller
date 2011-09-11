@@ -33,10 +33,6 @@ html, body{
   display: inline !important;
 }
 
-.story{
-  display: inline;
-}
-
 #container{
   position: relative;
   width: 900px;
@@ -59,6 +55,23 @@ html, body{
   background: #222723;
   margin-left: 195px;
   padding-top: 7px;
+}
+
+#thumbnailMacroInner{
+  margin-left: 195px;
+}
+
+.story{
+  display: inline;
+  width:150px;
+  font-family: "Helvetica", Arial, sans-serif;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  float: left;
+  margin: 5px;
+/*  padding-left: 51px;
+  padding-right: 55px;*/
 }
 
 #thumbnailMacro{
@@ -179,9 +192,11 @@ html, body{
       echo "</div>";
   echo "</div>";
   echo "<div id='thumbnailMacro'>";
+    echo "<div id='thumbnailMacroInner'>";
     foreach($all_stories as $key=>$value) {
       echo "<div id='" . (($key+1) * 1000) . "'js_value='$value' class='story'>$value</div>";
     }
+    echo "</div>";
   echo "</div>";
   
   $script = $script . "\n" . '<script type="text/javascript"> '. "\nvar allMp4 = new Array(";
@@ -280,7 +295,7 @@ html, body{
       dehover(storyKey);
       storyKey -= 1000;
       hover(storyKey)
-      // var currentMargin = macro.css('margin-left','+=160');
+      var currentMargin = macro.css('margin-left','+=160');
       return false;
   }
   
@@ -291,7 +306,7 @@ html, body{
     dehover(storyKey);
     storyKey += 1000;
     hover(storyKey)
-    // var currentMargin = thumbnails.css('margin-left','-=160');
+    var currentMargin = macro.css('margin-left','-=160');
     return false;
   }
   
@@ -314,7 +329,7 @@ html, body{
   }
   
   var thumbnails = $("#thumbnailInner");
-  var macro = $("#thumbnailMacro")
+  var macro = $("#thumbnailMacroInner")
   var key = 0;
   var storyKey = 1000;
   var currentStory = null;
