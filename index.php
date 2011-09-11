@@ -29,6 +29,10 @@ html, body{
   border-radius: 5px !important;
 }
 
+.lastThumbnail{
+  display: inline !important;
+}
+
 .story{
   display: inline;
 }
@@ -159,13 +163,13 @@ html, body{
   foreach($all_thumbnails as $key=>$value){
     echo "<img id='$key' class='$value[6] thumbnail' src='$value[4]'></img>";
     }
-  echo "<img id='". count($all_mp4) ."' onClick='reveal()' id='$key' class='thumbnail' src='blank.jpg'></img>";
+  echo "<img id='". count($all_mp4) ."' onClick='reveal()' id='$key' class='thumbnail lastThumbnail' src='blank.jpg'></img>";
         echo "<div id='gradientRight'></div>";
       echo "</div>";
   echo "</div>";
   echo "<div id='thumbnailMacro'>";
     foreach($all_stories as $key=>$value) {
-      echo "<div id='" . (($key+1) * 1000) . "' class='$value story'>$value</div>";
+      echo "<div id='" . (($key+1) * 1000) . "'js_value='$value' class='story'>$value</div>";
     }
   echo "</div>";
   
@@ -225,23 +229,6 @@ html, body{
     megaplaya.api_pause();
   }
   
-  var hoverNext = function(){
-    console.log("worrd")
-  }
-  
-  var thumbnails = $("#thumbnailInner");
-  var macro = $("#thumbnailMacro")
-  var key = 0;
-  var storyKey = 1000;
-  
-  var sources = [];
-  for (index in allMp4){
-    var source = {url: allMp4[index]}
-    sources.push(source);
-    console.log(source);
-  }
-
-  var position= -1;
   
   var left = function (){
       if (key == 0){
@@ -265,7 +252,6 @@ html, body{
     return false;
   }
   
-  
   var storyLeft = function (){
       if (storyKey == 1000){
         return; 
@@ -288,7 +274,35 @@ html, body{
     return false;
   }
   
+  var filterAll = function(storyKey){
+    var value = $('#' + storyKey).attr('js_value');
+    $('.thumbnail').each(function(index) {
+        $(this).css('display', 'none');
+      });
+
+    $('.' + value).each(function(index) {
+        $(this).css('display', 'inline');
+      });
+  }
   
+  var hoverNext = function(){
+    console.log("worrd")
+  }
+  
+  var thumbnails = $("#thumbnailInner");
+  var macro = $("#thumbnailMacro")
+  var key = 0;
+  var storyKey = 1000;
+  
+  var sources = [];
+  for (index in allMp4){
+    var source = {url: allMp4[index]}
+    sources.push(source);
+    console.log(source);
+  }
+
+  var position= -1;
+    
   $(document).keydown(function(e) {
     //left
     if (e.keyCode==37){
@@ -296,6 +310,7 @@ html, body{
         left()
       } else {
         storyLeft()
+        filterAll(storyKey);
       }
     }
 
@@ -305,6 +320,7 @@ html, body{
         right()
       } else {
         storyRight()
+        filterAll(storyKey);
       }
     }
     
@@ -315,6 +331,7 @@ html, body{
         return;
       }
       hover(storyKey)
+      filterAll(storyKey)
       dehover(key)
       position = -1;
       return false;
