@@ -18,12 +18,13 @@ html, body{
   margin: 0;
   padding: 0;
   background: black;
-  overflow: hidden;
 }
 
 .thumbnail{
   display: inline;
   margin: 5px;
+  width: 150px;
+  height: auto;
 }
 
 #thumbnails{
@@ -33,11 +34,13 @@ html, body{
   width: 800px;
   text-align: left;
   overflow: hidden;
-  height: 110px;
+  height: 160px;
+  background: red;
 }
 
 #thumbnailInner{
-  margin-left: 400px;
+  background: green;
+  margin-left: 350px;
 }
 
 #megaplaya{
@@ -54,20 +57,21 @@ html, body{
 #tvContainer{
   position: relative;
   margin: 0 auto;
-  top: 20px;
-  height: 350px;
-  width: 400px;
+  top: -100px;
+  height: 500px;
+  width: 600px;
   overflow: hidden;
   text-align: center;
 }
 
 #loading{
-  background: black;
+  background: green;
   visibility: hidden;
-  height: 400px;
-  width: 400px;
+  height: 500px;
+  width: 600px;
   position: relative;
   margin: 0 auto;
+  overflow: hidden;
   top: 0;
 }
 </style>
@@ -93,7 +97,7 @@ html, body{
     echo "<img id='$key' class='thumbnail' src='$value'></img>";
     }
     
-  echo "<img id='". count($all_mp4) ."' onClick='reveal()' id='$key' class='thumbnail' src='blank.png' height='100px' width='100px'></img>";
+  echo "<img id='". count($all_mp4) ."' onClick='reveal()' id='$key' class='thumbnail' src='blank.png'></img>";
     
       echo "</div>";
   echo "</div>";
@@ -186,6 +190,8 @@ html, body{
       hover(key)
       var currentMargin = thumbnails.css('margin-left','-=110');
       return false;
+      
+      //enter
     } else if (e.keyCode==13){
       play(key);
     }
@@ -198,8 +204,8 @@ html, body{
     function() {
       $('#megaplaya').flash({
         swf: 'http://vhx.tv/swf/megaplaya_embed_beta.swf',
-        width: 400,
-        height: 300,
+        width: 600,
+        height: 400,
         allowFullScreen: true,
         allowScriptAccess: "always",
       });
@@ -210,7 +216,7 @@ html, body{
   function megaplaya_loaded(){
     megaplaya = $('#megaplaya').children()[0];
     megaplaya.api_playQueue(sources)
-    // megaplaya.api_addEventListener('onNextVideo', hoverNext) //por la casey
+    megaplaya.api_addEventListener('onVideoLoad', hoverNext) //por la casey
   }
   
   //cant add videos to megaplaya
@@ -254,7 +260,7 @@ Framey.observe("publishSucceeded", function(session_data){
     'id': "<?= $objid ?>",
     'name': "<?= $objid ?>"
   };
-  swfobject.embedSWF("http://framey.com/recorder.swf", "<?= divid ?>", "340", "340", "8", "", flashvars, params, attributes);
+  swfobject.embedSWF("http://framey.com/recorder.swf", "<?= divid ?>", "400", "600", "8", "", flashvars, params, attributes);
 
 
 var total = document.getElementsByClassName("thumbnail");
