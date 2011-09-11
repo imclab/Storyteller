@@ -38,7 +38,7 @@
                   url: "addTitle.php",
                   data: {title: title},
                   success: function(data){
-                    console.log("yay!");
+                    window.location.reload();
                     return false;
                   }
                 }) 
@@ -209,10 +209,10 @@ input[type='text'] {
   $all_thumbnails = array();
   $all_stories = array();
   
-  $query = "SELECT DISTINCT title FROM stories";
+  $query = "SELECT * FROM titles";
   $result = mysql_query($query);
   while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
-      array_push($all_stories, $row[0]);
+      array_push($all_stories, $row[1]);
   }
   
   $query = "SELECT * FROM stories";
@@ -527,10 +527,20 @@ input[type='text'] {
         max_time: 60,      // optional, 30 by default
     })
 
+  var lastId = 0;
 
-Framey.observe("publishSucceeded", function(session_data){
-   publish_state();
- });
+  Framey.observe("publishSucceeded", function(session_data){
+    $.ajax({
+      type: 'POST',
+      url: "updateStory.php",
+      data: {title: currentStory},
+      success: function(data){
+        lastId = data;
+        return false;
+      }
+    });
+     publish_state();
+  });
 
   var flashvars = {
   	api_key: "<?= $api_key ?>",
@@ -565,8 +575,21 @@ var publish_state = function(){
       if(data=="false"){
         publish_state();
       } else {
-        window.location.reload();
+        console.log('were in');
+        console.log(lastId)
+        console.log(currentStory)
+        $.ajax({
+          type: 'POST',
+          url: "updateUpdate.php",
+          data: {last: lastId, title: currentStory},
+          success: function(data){
+            console.log(data)
+            window.location.reload();
+            return false;
+          }
+        });
       }
+      return false;
     }
   });
 }
