@@ -9,6 +9,7 @@
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
   <script type="text/javascript" src="swf.js"></script>
   <script type="text/javascript" src="framey.js"></script>
+  <script type="text/javascript" src="http://fgnass.github.com/spin.js/spin.min.js"></script>
   
 <style type="text/css">
 html, body{
@@ -53,6 +54,16 @@ html, body{
   width: 400px;
   overflow: hidden;
   text-align: center;
+}
+
+#loading{
+  background: black;
+  visibility: hidden;
+  height: 400px;
+  width: 400px;
+  position: relative;
+  margin: 0 auto;
+  top: 0;
 }
 </style>
   
@@ -100,6 +111,7 @@ html, body{
 <div id="tvContainer">
   <div id="<?= divid ?>"></div>
   <div id="megaplaya"></div>
+  <div id="loading"></div>
   </div>
 
 <script>
@@ -215,6 +227,7 @@ var publish_state = function(){
     data: {total : total},
     timeout: "10000",
     success: function(data){
+      document.getElementById("loading").style.visibility = "visible";
       if(data=="false"){
         publish_state();
       } else {
@@ -223,6 +236,24 @@ var publish_state = function(){
     }
   });
 }
+
+
+//spinner
+
+var opts = {
+  lines: 12, // The number of lines to draw
+  length: 7, // The length of each line
+  width: 5, // The line thickness
+  radius: 10, // The radius of the inner circle
+  color: '#FFF', // #rbg or #rrggbb
+  speed: 1, // Rounds per second
+  trail: 100, // Afterglow percentage
+  shadow: true // Whether to render a shadow
+};
+var target = document.getElementById('loading');
+var spinner = new Spinner(opts).spin(target);
+
+
 </script>
   </body>
 </html>
