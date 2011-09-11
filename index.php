@@ -90,10 +90,10 @@ html, body{
   echo "<div id='thumbnails'>";
     echo "<div id='thumbnailInner'>";
   foreach($all_thumbnails as $key=>$value){
-    echo "<img onMouseOut='dehover($key)' onMouseOver='hover($key)' onClick='play($key)' id='$key' class='thumbnail' src='$value'></img>";
+    echo "<img id='$key' class='thumbnail' src='$value'></img>";
     }
     
-  echo "<img id='". count($all_mp4) ."' onMouseOut='dehover(-1)' onMouseOver='hover(-1)' onClick='reveal()' id='$key' class='thumbnail' src='blank.png' height='100px' width='100px'></img>";
+  echo "<img id='". count($all_mp4) ."' onClick='reveal()' id='$key' class='thumbnail' src='blank.png' height='100px' width='100px'></img>";
     
       echo "</div>";
   echo "</div>";
@@ -135,6 +135,10 @@ html, body{
   }
     
   var play = function(key){
+    if (key == count){
+      reveal();
+      return;
+    }
     document.getElementById('theframeyRecorderContainer_1').style.visibility = "hidden !important";
     document.getElementById('megaplaya').style.visibility = "visible";
     megaplaya.api_pause();
@@ -169,7 +173,7 @@ html, body{
       dehover(key);
       key--;
       hover(key)
-      var currentMargin = thumbnails.css('margin-left','+=100');
+      var currentMargin = thumbnails.css('margin-left','+=110');
       return false;
 
       //right
@@ -180,8 +184,10 @@ html, body{
       dehover(key);
       key++;
       hover(key)
-      var currentMargin = thumbnails.css('margin-left','-=100');
+      var currentMargin = thumbnails.css('margin-left','-=110');
       return false;
+    } else if (e.keyCode==13){
+      play(key);
     }
   });
 
