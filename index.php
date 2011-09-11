@@ -29,6 +29,12 @@ html, body{
   border-radius: 5px !important;
 }
 
+#container{
+  position: relative;
+  width: 900px;
+  margin: 0 auto;
+}
+
 #thumbnails{
   background: #222723;
   position: relative;
@@ -43,7 +49,7 @@ html, body{
 
 #thumbnailInner{
   background: #222723;
-  margin-left: 370px;
+  margin-left: 195px;
   width: 1000px;
   padding-top: 7px;
 }
@@ -73,6 +79,11 @@ html, body{
   top: 0;
 }
 
+#megaplaya > object{
+  border: 3px solid #9DA09D;
+  border-radius: 5px;
+}
+
 #theframeyRecorderContainer_1{
  visibility: hidden !important;
  position: absolute;
@@ -84,10 +95,16 @@ html, body{
   position: relative;
   margin: 0 auto;
   top: -100px;
-  height: 500px;
+  height: 410px;
   width: 600px;
   overflow: hidden;
-  text-align: center;
+  float: left;
+}
+
+#text{
+  float: right;
+  text-align: left;
+  color: white;
 }
 
 #loading{
@@ -102,7 +119,7 @@ html, body{
 }
 </style>
   
-  
+<div id="container">
   <?php
   require("opendb.php");
   require("framey.php");
@@ -147,12 +164,13 @@ html, body{
   echo $script . "</script>";
   ?>
   
-<div id="tvContainer">
-  <div id="<?= divid ?>"></div>
-  <div id="megaplaya"></div>
-  <div id="loading"></div>
+  <div id="tvContainer">
+    <div id="<?= divid ?>"></div>
+    <div id="megaplaya"></div>
+    <div id="loading"></div>
   </div>
-
+  <div id="text">THIS IS SOME TEXT</div>
+</div>
 <script>
   
   var hover = function(key){
@@ -231,7 +249,7 @@ html, body{
     function() {
       $('#megaplaya').flash({
         swf: 'http://vhx.tv/swf/megaplaya_embed_beta.swf',
-        width: 600,
+        width: 540,
         height: 400,
         allowFullScreen: true,
         allowScriptAccess: "always",
