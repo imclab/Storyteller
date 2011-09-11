@@ -29,6 +29,10 @@ html, body{
   border-radius: 5px !important;
 }
 
+.story{
+  display: inline;
+}
+
 #container{
   position: relative;
   width: 900px;
@@ -51,6 +55,14 @@ html, body{
   background: #222723;
   margin-left: 195px;
   padding-top: 7px;
+}
+
+#thumbnailMacro{
+  position: absolute;
+  background: green;
+  top: 683px;
+  width: 900px;
+  height: 30px;
 }
 
 #gradientLeft{
@@ -125,11 +137,19 @@ html, body{
   
   $all_mp4 = array();
   $all_thumbnails = array();
+  $all_stories = array();
+  
+  $query = "SELECT DISTINCT title FROM stories";
+  $result = mysql_query($query);
+  while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+      array_push($all_stories, $row[0]);
+  }
+  
   $query = "SELECT * FROM stories";
   $result = mysql_query($query);
   while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
       array_push($all_mp4, $row[2]); 
-      array_push($all_thumbnails, $row[4]); 
+      array_push($all_thumbnails, $row);
   }
 
 
@@ -137,12 +157,16 @@ html, body{
     echo "<div id='thumbnailInner'>";
     echo "<div id='gradientLeft'></div>";
   foreach($all_thumbnails as $key=>$value){
-    echo "<img id='$key' class='thumbnail' src='$value'></img>";
+    echo "<img id='$key' class='$value[6] thumbnail' src='$value[4]'></img>";
     }
-    
   echo "<img id='". count($all_mp4) ."' onClick='reveal()' id='$key' class='thumbnail' src='blank.jpg'></img>";
         echo "<div id='gradientRight'></div>";
       echo "</div>";
+  echo "</div>";
+  echo "<div id='thumbnailMacro'>";
+    foreach($all_stories as $key=>$value) {
+      echo "<div id='$key" . story ."' class='$value story'>$value</div>";
+    }
   echo "</div>";
   
   $script = $script . "\n" . '<script type="text/javascript"> '. "\nvar allMp4 = new Array(";
