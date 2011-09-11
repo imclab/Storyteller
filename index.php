@@ -25,13 +25,14 @@ html, body{
   margin: 5px;
   width: 150px;
   height: auto;
+  position: relative;
 }
 
 #thumbnails{
   position: relative;
   top: 500px;
   margin: 0 auto;
-  width: 800px;
+  width: 900px;
   text-align: left;
   overflow: hidden;
   height: 160px;
@@ -40,7 +41,8 @@ html, body{
 
 #thumbnailInner{
   background: green;
-  margin-left: 350px;
+  margin-left: 370px;
+  width: 1000px;
 }
 
 #megaplaya{
@@ -177,7 +179,7 @@ html, body{
       dehover(key);
       key--;
       hover(key)
-      var currentMargin = thumbnails.css('margin-left','+=110');
+      var currentMargin = thumbnails.css('margin-left','+=160');
       return false;
 
       //right
@@ -188,7 +190,7 @@ html, body{
       dehover(key);
       key++;
       hover(key)
-      var currentMargin = thumbnails.css('margin-left','-=110');
+      var currentMargin = thumbnails.css('margin-left','-=160');
       return false;
       
       //enter
