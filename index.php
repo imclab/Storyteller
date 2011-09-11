@@ -45,6 +45,26 @@ html, body{
   width: 1000px;
 }
 
+#gradientLeft{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 160px;
+  width: 20px;
+  z-index: 9999;
+  background-image: -webkit-gradient(linear, 100% 50%, 0% 50%, from(rgba(0,0,0,0)), to(#000000));
+}
+
+#gradientRight{
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 160px;
+  width: 20px;
+  z-index: 9999;
+  background-image: -webkit-gradient(linear, 0% 50%, 100% 50%, from(rgba(0,0,0,0)), to(#000000));
+}
+
 #megaplaya{
   position: absolute;
   top: 0;
@@ -95,12 +115,13 @@ html, body{
 
   echo "<div id='thumbnails'>";
     echo "<div id='thumbnailInner'>";
+    echo "<div id='gradientLeft'></div>";
   foreach($all_thumbnails as $key=>$value){
     echo "<img id='$key' class='thumbnail' src='$value'></img>";
     }
     
   echo "<img id='". count($all_mp4) ."' onClick='reveal()' id='$key' class='thumbnail' src='blank.png'></img>";
-    
+        echo "<div id='gradientRight'></div>";
       echo "</div>";
   echo "</div>";
   
