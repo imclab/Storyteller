@@ -183,7 +183,8 @@ html, body{
     $script = $script . "1);\nallMp4[0]=" .'"'. $all_mp4[0] .'"'. ";\n";
   }
   
-  $script = $script . 'var count=' . count($all_mp4); 
+  $script = $script . 'var count=' . count($all_mp4);
+  $script = $script . '; var storyCount=' . count($all_stories); 
   echo $script . "</script>";
   ?>
   
@@ -197,6 +198,7 @@ html, body{
 <script>
   
   var hover = function(key){
+    console.log(key)
     document.getElementById(key).style.margin = "0px";
     document.getElementById(key).style.border = '5px solid #FFF';
   }
@@ -228,8 +230,9 @@ html, body{
   }
   
   var thumbnails = $("#thumbnailInner");
+  var macro = $("#thumbnailMacro")
   var key = 0;
-  var storyKey = 1;
+  var storyKey = 1000;
   
   var sources = [];
   for (index in allMp4){
@@ -240,7 +243,7 @@ html, body{
 
   var position= -1;
   
-  var left = function (isBottom){
+  var left = function (){
       if (key == 0){
         return; 
       }
@@ -251,7 +254,7 @@ html, body{
       return false;
   }
   
-  var right = function(isBottom){
+  var right = function(){
     if (key == (count)){
       return;
     }
@@ -263,16 +266,46 @@ html, body{
   }
   
   
+  var storyLeft = function (){
+      if (storyKey == 1000){
+        return; 
+      }
+      dehover(storyKey);
+      storyKey -= 1000;
+      hover(storyKey)
+      // var currentMargin = macro.css('margin-left','+=160');
+      return false;
+  }
+  
+  var storyRight = function(){
+    if (storyKey == (storyCount * 1000)){
+      return;
+    }
+    dehover(storyKey);
+    storyKey += 1000;
+    hover(storyKey)
+    // var currentMargin = thumbnails.css('margin-left','-=160');
+    return false;
+  }
+  
   
   $(document).keydown(function(e) {
     //left
     if (e.keyCode==37){
-      left()
+      if (position == 0){
+        left()
+      } else {
+        storyLeft()
+      }
     }
 
     //right    
     if (e.keyCode==39){
-      right();
+      if (position == 0){
+        right()
+      } else {
+        storyRight()
+      }
     }
     
     //down
