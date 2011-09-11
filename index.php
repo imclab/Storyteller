@@ -93,7 +93,7 @@ html, body{
     echo "<img onMouseOut='dehover($key)' onMouseOver='hover($key)' onClick='play($key)' id='$key' class='thumbnail' src='$value'></img>";
     }
     
-  echo "<img id='-1' onMouseOut='dehover(-1)' onMouseOver='hover(-1)' onClick='reveal()' id='$key' class='thumbnail' src='blank.png' height='100px' width='100px'></img>";
+  echo "<img id='". count($all_mp4) ."' onMouseOut='dehover(-1)' onMouseOver='hover(-1)' onClick='reveal()' id='$key' class='thumbnail' src='blank.png' height='100px' width='100px'></img>";
     
       echo "</div>";
   echo "</div>";
@@ -111,7 +111,8 @@ html, body{
   } else {
     $script = $script . "1);\nallMp4[0]=" .'"'. $all_mp4[0] .'"'. ";\n";
   }
-    
+  
+  $script = $script . 'var count=' . count($all_mp4); 
   echo $script . "</script>";
   ?>
   
@@ -122,7 +123,7 @@ html, body{
   </div>
 
 <script>
-    
+  
   var hover = function(key){
     document.getElementById(key).style.margin = "0px";
     document.getElementById(key).style.border = '5px solid green';
@@ -150,15 +151,42 @@ html, body{
     console.log("worrd")
   }
   
-  var count;
+  var thumbnails = $("#thumbnailInner");
+  var key = 0;
+  
   var sources = [];
   for (index in allMp4){
     var source = {url: allMp4[index]}
     sources.push(source);
     console.log(source);
-    count++;
   }
 
+  $(document).keydown(function(e) {
+    if (e.keyCode==37){
+      if (key == 0){
+        return; 
+      }
+      dehover(key);
+      key--;
+      hover(key)
+      var currentMargin = thumbnails.css('margin-left','+=100');
+      return false;
+
+      //right
+    } else if (e.keyCode==39){
+      if (key == (count)){
+        return;
+      }
+      dehover(key);
+      key++;
+      hover(key)
+      var currentMargin = thumbnails.css('margin-left','-=100');
+      return false;
+    }
+  });
+
+  //initialize
+  hover(0);
 
   $(document).ready(
     function() {
