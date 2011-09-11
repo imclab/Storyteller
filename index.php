@@ -26,30 +26,33 @@ html, body{
   width: 150px;
   height: auto;
   position: relative;
+  border-radius: 5px !important;
 }
 
 #thumbnails{
+  background: #222723;
   position: relative;
   top: 500px;
   margin: 0 auto;
   width: 900px;
   text-align: left;
   overflow: hidden;
-  height: 160px;
-  background: red;
+  height: 174px;
+  border-radius: 5px;
 }
 
 #thumbnailInner{
-  background: green;
+  background: #222723;
   margin-left: 370px;
   width: 1000px;
+  padding-top: 7px;
 }
 
 #gradientLeft{
   position: absolute;
   top: 0;
   left: 0;
-  height: 160px;
+  height: 175px;
   width: 20px;
   z-index: 9999;
   background-image: -webkit-gradient(linear, 100% 50%, 0% 50%, from(rgba(0,0,0,0)), to(#000000));
@@ -59,7 +62,7 @@ html, body{
   position: absolute;
   top: 0;
   right: 0;
-  height: 160px;
+  height: 175px;
   width: 20px;
   z-index: 9999;
   background-image: -webkit-gradient(linear, 0% 50%, 100% 50%, from(rgba(0,0,0,0)), to(#000000));
@@ -120,7 +123,7 @@ html, body{
     echo "<img id='$key' class='thumbnail' src='$value'></img>";
     }
     
-  echo "<img id='". count($all_mp4) ."' onClick='reveal()' id='$key' class='thumbnail' src='blank.png'></img>";
+  echo "<img id='". count($all_mp4) ."' onClick='reveal()' id='$key' class='thumbnail' src='blank.jpg'></img>";
         echo "<div id='gradientRight'></div>";
       echo "</div>";
   echo "</div>";
@@ -153,7 +156,7 @@ html, body{
   
   var hover = function(key){
     document.getElementById(key).style.margin = "0px";
-    document.getElementById(key).style.border = '5px solid green';
+    document.getElementById(key).style.border = '5px solid #FFF';
   }
   
   var dehover = function(key){
